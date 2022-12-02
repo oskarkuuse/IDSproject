@@ -1,7 +1,9 @@
-# general req
+-- general req
 select * from countries;
 
 select * from competitions;
+
+select * from results where average <= 0;
 
 select countries.id, countries.name, countries.iso2, count(countries.id) as 'count'
 from countries, competitions where countries.id = competitions.countryId
@@ -11,9 +13,12 @@ select count(*) from competitions where countryId = 'Morocco';
 
 select eventId, count(*) as count from results group by eventId order by count DESC;
 
+select COUNT(distinct(results.competitionId)) as comps from persons, results
+where results.personId = persons.id
+group by personId;
 
 
-# statistics
+-- statistics
 select id, name, COUNT(distinct(results.competitionId)), AVG(results.average) from persons, results
 where results.personId = persons.id and results.eventId = 333 and results.average > 0
 group by personId;
