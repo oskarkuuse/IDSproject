@@ -19,6 +19,8 @@ group by personId;
 
 
 -- statistics
+
+-- TOPIC: competition participation vs averages
 select id, name, COUNT(distinct(results.competitionId)), AVG(results.average) from persons, results
 where results.personId = persons.id and results.eventId = '333' and results.average > 0
 group by personId;
@@ -48,6 +50,7 @@ select * from persons, results
 where name = 'Feliks Zemdegs' and results.personId = persons.id and results.eventId = 333;
 
 
+-- TOPIC: correlation between events
 select eventId, personId, AVG(average) from results
 where (eventId = '333' or eventId = '444') and average > 0
 group by eventId, personId;
@@ -69,3 +72,10 @@ select 333avg.AVG as '333', 222avg.AVG as '222' from 333avg, 222avg where 333avg
 select 333avg.AVG as '333', pyramavg.AVG as 'pyraminx' from 333avg, pyramavg where 333avg.personId = pyramavg.personId;
 
 select 333avg.AVG as '333', clockavg.AVG as 'clock' from 333avg, clockavg where 333avg.personId = clockavg.personId;
+
+
+-- TOPIC: Solve difference
+select value1, value2, value3, value4, value5 from results where eventId = '333'
+and value1 != 0 and value1 != -2 and value2 != 0 and value2 != -2 and value3 != 0
+and value3 != -2 and value4 != 0 and value4 != -2 and value5 != 0 and value5 != -2;
+
