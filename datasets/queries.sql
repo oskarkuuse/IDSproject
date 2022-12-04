@@ -56,6 +56,16 @@ select eventId, personId, MIN(average) as AVG from results
 where (eventId = '333' or eventId = '444') and average > 0
 group by eventId, personId;
 
+-- Example view for making queries on averages simpler
+create view 333avg as
+select eventId, personId, MIN(average) as AVG from results
+where (eventId = '333') and average > 0
+group by eventId, personId;
+
 select 333avg.AVG as '333', 444avg.AVG as '444' from 333avg, 444avg where 333avg.personId = 444avg.personId;
 
+select 333avg.AVG as '333', 222avg.AVG as '222' from 333avg, 222avg where 333avg.personId = 222avg.personId;
 
+select 333avg.AVG as '333', pyramavg.AVG as 'pyraminx' from 333avg, pyramavg where 333avg.personId = pyramavg.personId;
+
+select 333avg.AVG as '333', clockavg.AVG as 'clock' from 333avg, clockavg where 333avg.personId = clockavg.personId;
