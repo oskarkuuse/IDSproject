@@ -79,3 +79,12 @@ select value1, value2, value3, value4, value5 from results where eventId = '333'
 and value1 != 0 and value1 != -2 and value2 != 0 and value2 != -2 and value3 != 0
 and value3 != -2 and value4 != 0 and value4 != -2 and value5 != 0 and value5 != -2;
 
+-- TOPIC: Performance over multiple events
+select persons.id, count(distinct competitionId) as comps from persons, results, competitions where persons.id = results.personId
+and results.competitionId = competitions.id and competitions.year = 2019 and eventId = '333' and month = 6
+group by persons.id, month
+order by comps DESC;
+
+select distinct persons.id, MAX(average) as average from persons, results, competitions where persons.id = results.personId
+and results.competitionId = competitions.id and competitions.year = 2019 and eventId = '333' and month = 6
+and personId in ('2014PETE03', '2015JAEH01', '2011FERA01', '2014CHER05', '2013ROGA02') group by personId, competitionId, day order by personId, day;
