@@ -17,6 +17,28 @@ select COUNT(distinct(results.competitionId)) as comps from persons, results
 where results.personId = persons.id
 group by personId;
 
+-- Countries by world records
+select personCountryId as country, count(*) as records, count(distinct personId) as individuals from results
+where regionalAverageRecord = 'WR' or regionalSingleRecord = 'WR'
+group by personCountryId order by records DESC;
+
+select personCountryId as country, sum(if(regionalAverageRecord = 'WR', 1, 0) + if(regionalSingleRecord = 'WR', 1, 0)) as records, count(distinct personId) as individuals from results
+where regionalAverageRecord = 'WR' or regionalSingleRecord = 'WR'
+group by personCountryId order by records DESC;
+
+create view wrAVG as
+select personCountryId as country, count(*) as records from results
+where regionalAverageRecord = 'WR' group by personCountryId order by records DESC;
+
+create view wrSINGLE as
+select personCountryId as country, count(*) as records from results
+where regionalSingleRecord = 'WR' group by personCountryId order by records DESC;
+
+select * from wrAVG left join wrSINGLE on wrAVG.country = wrSINGLE.country
+union all
+select * from wrSINGLE left join wrAVG on wrAVG.country = wrSINGLE.country
+where wrAVG.country is null;
+
 
 -- statistics
 
