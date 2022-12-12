@@ -19,6 +19,9 @@ select COUNT(distinct(results.competitionId)) as comps from persons, results
 where results.personId = persons.id
 group by personId;
 
+select year, count(distinct personId) from results, competitions where results.competitionId = competitions.id and year > 2000
+group by year;
+
 select year, count(id) as count from competitions group by year order by year;
 
 -- Countries by world records
@@ -114,3 +117,9 @@ order by comps DESC;
 select distinct persons.id, MAX(average) as average from persons, results, competitions where persons.id = results.personId
 and results.competitionId = competitions.id and competitions.year = 2019 and eventId = '333' and month = 6
 and personId in ('2014PETE03', '2015JAEH01', '2011FERA01', '2014CHER05', '2013ROGA02') group by personId, competitionId, day order by personId, day;
+
+-- TOPIC: Distribution analysis
+select average from results where eventId='333' and average > 0 and average < 10000;
+select average from results where eventId='444' and average > 0;
+select average from results where eventId='222' and average > 0;
+select average from results where eventId='555' and average > 0;
