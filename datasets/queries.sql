@@ -5,6 +5,8 @@ select * from competitions;
 
 select * from results where average <= 0;
 
+select count(*) from persons;
+
 select countries.id, countries.name, countries.iso2, count(countries.id) as 'count'
 from countries, competitions where countries.id = competitions.countryId
 group by countries.id;
@@ -16,6 +18,8 @@ select eventId, count(*) as count from results group by eventId order by count D
 select COUNT(distinct(results.competitionId)) as comps from persons, results
 where results.personId = persons.id
 group by personId;
+
+select year, count(id) as count from competitions group by year order by year;
 
 -- Countries by world records
 select personCountryId as country, count(*) as records, count(distinct personId) as individuals from results
