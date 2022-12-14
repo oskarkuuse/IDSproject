@@ -46,6 +46,7 @@ union all
 select * from wrSINGLE left join wrAVG on wrAVG.country = wrSINGLE.country
 where wrAVG.country is null;
 
+select distinct gender from persons;
 
 -- statistics
 
@@ -102,6 +103,8 @@ select 333avg.AVG as '333', pyramavg.AVG as 'pyraminx' from 333avg, pyramavg whe
 
 select 333avg.AVG as '333', clockavg.AVG as 'clock' from 333avg, clockavg where 333avg.personId = clockavg.personId;
 
+select pyramavg.AVG as pyram, clockavg.AVG as clock from pyramavg, clockavg where pyramavg.personId = clockavg.personId;
+
 
 -- TOPIC: Solve difference
 select value1, value2, value3, value4, value5 from results where eventId = '333'
@@ -119,7 +122,18 @@ and results.competitionId = competitions.id and competitions.year = 2019 and eve
 and personId in ('2014PETE03', '2015JAEH01', '2011FERA01', '2014CHER05', '2013ROGA02') group by personId, competitionId, day order by personId, day;
 
 -- TOPIC: Distribution analysis
-select average from results where eventId='333' and average > 0 and average < 10000;
+select average from results where eventId='333' and average > 0;
 select average from results where eventId='444' and average > 0;
 select average from results where eventId='222' and average > 0;
 select average from results where eventId='555' and average > 0;
+
+select average from results where eventId='pyram' and average > 0;
+select average from results where eventId='sq1' and average > 0;
+select average from results where eventId='skewb' and average > 0;
+select average from results where eventId='minx' and average > 0;
+
+
+select eventId, gender, AVG(average) from results, persons
+where results.personId = persons.id
+group by eventId, persons.gender
+having gender = 'f' or gender = 'm';
